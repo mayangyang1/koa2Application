@@ -5,6 +5,7 @@ const Koa = require('koa'),
     koajwt = require('koa-jwt');
     static = require('koa-static'),
     cors = require('koa2-cors'),
+    koaBody = require('koa-body'),
     router = require('koa-router')();
 
 
@@ -15,6 +16,12 @@ const db = require('./config/db'),
     routerCollection = require('./routes/index');
 
 app.use(cors())
+app.use(koaBody({
+    multipart:true,
+    formidable: {
+        maxFileSize: 20*1024*1024 //限制文件上传大小 默认2M
+    }
+}))
 app.use(static('./dist'))
 app.use(json());
 app.use(bodyparser());
